@@ -27,8 +27,6 @@ NUMS = { 1 => "one",
 	90 => "ninety"
 }
 
-p NUMS
-
 def number_parser num
 	num_str = ""
 	if num.to_s.length == 3
