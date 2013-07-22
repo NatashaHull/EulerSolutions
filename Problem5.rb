@@ -1,3 +1,4 @@
+#Failed indirect attempt
 def is_prime? num
 	result = true
 	i = 2

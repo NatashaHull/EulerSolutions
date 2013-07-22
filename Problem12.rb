@@ -1,3 +1,4 @@
+#Initial attempted solution
 def divisor_num num
 	divisors = 0
 	i = 1

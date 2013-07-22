@@ -1,3 +1,4 @@
+#Attempt at a different (shorter) way to get a solution
 def divisor_num num
 	divisors = 1
 	until num == 1
