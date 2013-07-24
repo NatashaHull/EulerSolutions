@@ -1,4 +1,4 @@
-#Solution attempt inspired by solution for problem 18
+#Experimenting with half the lattice
 class Lattice
 	def initialize dimensions
 		@dimensions = dimensions.to_i + 1
@@ -17,39 +17,45 @@ class Lattice
 		location += @dimensions unless all_down?(location)
 		location
 	end
+	def middle
+		result = []
+		round = 1
+		0.upto(@dimensions-1) do |x|
+			result << (round * @dimensions) - x
+			round += 1
+		end
+		p result
+		result
+	end
 	def paths
 		@location = 1
+		middle_arr = middle
 		paths_array = []
 		path_num = 0
-		paths_array << [@location]
-		until paths_array[0].last == @dimensions
+		until paths_array[0] == @dimensions
 			@alt_location = @location
 			@location = right
-			paths_array[0] << @location
+			paths_array[0] = @location
 			path_num += 1
-			paths_array[path_num] = []
-			paths_array[0].each { |x| paths_array[path_num] << x }
-			paths_array[path_num].pop
 			@alt_location = down(@alt_location)
-			paths_array[path_num] << @alt_location
+			paths_array[path_num] = @alt_location
 		end
+		p paths_array
+		paths_array.select! { |x| !middle_arr.include?(x) }
+		p paths_array
 		paths_array.each do |path|
-			next if path.last % @dimensions == 0
-			@location = path.last
-			until (@location % @dimensions == 0) || all_down?(@location)
+			@location = path
+			until middle_arr.include?(@location)
 				@alt_location = @location
 				@location = right
-				path << @location
+				path = @location
 				path_num += 1
-				paths_array[path_num] = []
-				path.each { |x| paths_array[path_num] << x }
-				paths_array[path_num].pop
 				@alt_location = down(@alt_location)
-				paths_array[path_num] << @alt_location
+				paths_array << @alt_location unless middle_arr.include?(@alt_location)
+				puts path_num
 			end
-			puts path_num
 		end
-		puts path_num
+		puts (path_num + 1) * 2
 	end
 	def all_down? location
 		location > (@dimensions * (@dimensions - 1))

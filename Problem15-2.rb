@@ -1,7 +1,8 @@
-#Solution attempt inspired by solution for problem 18
+#Shortened solution attempt inspired by solution for problem 18
+#Would take years to run
 class Lattice
 	def initialize dimensions
-		@dimensions = dimensions.to_i + 1
+		@dimensions = dimensions.to_i
 		@location = 1
 		@alt_location = 1
 	end
@@ -21,40 +22,35 @@ class Lattice
 		@location = 1
 		paths_array = []
 		path_num = 0
-		paths_array << [@location]
-		until paths_array[0].last == @dimensions
+		until paths_array[0] == @dimensions
 			@alt_location = @location
 			@location = right
-			paths_array[0] << @location
+			paths_array[0] = @location
 			path_num += 1
-			paths_array[path_num] = []
-			paths_array[0].each { |x| paths_array[path_num] << x }
-			paths_array[path_num].pop
 			@alt_location = down(@alt_location)
-			paths_array[path_num] << @alt_location
+			paths_array[path_num] = @alt_location
 		end
+		p paths_array
+		paths_array.select! { |x| x % @dimensions != 0 && !all_down?(x) }
+		p paths_array
 		paths_array.each do |path|
-			next if path.last % @dimensions == 0
-			@location = path.last
-			until (@location % @dimensions == 0) || all_down?(@location)
+			@location = path
+			until (path % @dimensions == 0) || all_down?(@location)
 				@alt_location = @location
 				@location = right
-				path << @location
+				path = @location
 				path_num += 1
-				paths_array[path_num] = []
-				path.each { |x| paths_array[path_num] << x }
-				paths_array[path_num].pop
 				@alt_location = down(@alt_location)
-				paths_array[path_num] << @alt_location
+				paths_array << @alt_location unless all_down?(@alt_location)
 			end
 			puts path_num
 		end
-		puts path_num
+		puts path_num + 1
 	end
 	def all_down? location
 		location > (@dimensions * (@dimensions - 1))
 	end
 end
 
-lattice = Lattice.new(20)
+lattice = Lattice.new(21)
 lattice.paths
