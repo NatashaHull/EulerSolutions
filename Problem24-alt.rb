@@ -20,11 +20,13 @@ def generate_lexicographic_permutation(num, num_arr)
 	num_locations = nearest_lexicographic_permuation(num - 1)
 	result = []
 	num_locations.each_with_index do |location, i|
-		result[9 - location[0]] = num_arr[location[1]]
-		if 9 - location[0] != i
-			result[i] = num_arr[i]
-			num_arr.delete_at(i)
+		j = i
+		until j == 9 - location[0]
+			result[j] = num_arr[j]
+			num_arr.delete_at(j)
+			j += 1
 		end
+		result[9 - location[0]] = num_arr[location[1]]
 		num_arr.delete_at(location[1])
 	end
 	result << num_arr.join

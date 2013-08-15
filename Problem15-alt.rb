@@ -6,6 +6,7 @@ def paths lattice_length
 		xy[0] << 1
 		xy << [1]
 	end
+	p xy
 	xy[1][1] = xy[1][0] + xy[0][1]
 	1.upto(lattice_length) do |x|
 		1.upto(lattice_length) do |y|
